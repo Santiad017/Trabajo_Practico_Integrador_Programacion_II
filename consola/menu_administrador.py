@@ -87,10 +87,31 @@ class MenuAdministrador(Menu):
 
             try:
                 if op == 1:
-                    prods = self._producto_servicio.listar_todos()
-                    if not prods:
-                        print("No hay productos registrados.")
+                    categorias = self._categoria_servicio.listar_todas()
+                    if not categorias:
+                        print(">> No hay categorías registradas. Por lo tanto, no hay productos.")
+                        continue
+
+                    print("\n--- FILTRAR POR CATEGORÍA ---")
+                    print("0. Mostrar TODOS los productos")
+                    for idx, cat in enumerate(categorias, start=1):
+                        print(f"{idx}. {cat.nombre}")
+                    
+                    op_cat = leer_entero("Seleccione una opción: ")
+                    
+                    if op_cat == 0:
+                        prods = self._producto_servicio.listar_todos()
+                    elif 1 <= op_cat <= len(categorias):
+                        cat_seleccionada = categorias[op_cat - 1]
+                        prods = self._producto_servicio.listar_por_categoria(cat_seleccionada.id)
                     else:
+                        print(">> Opción fuera de rango.")
+                        continue
+
+                    if not prods:
+                        print("\nNo hay productos registrados para esta selección.")
+                    else:
+                        print(f"\n--- LISTA DE PRODUCTOS ---")
                         for p in prods:
                             print(p)
                 elif op == 2:

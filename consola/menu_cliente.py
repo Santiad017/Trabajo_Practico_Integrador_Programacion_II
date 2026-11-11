@@ -24,9 +24,29 @@ class MenuCliente(Menu):
                         for c in cats:
                             print(c)
                 elif op == 2:
-                    prods = self._producto_servicio.listar_disponibles_con_stock()
+                    categorias = self._categoria_servicio.listar_todas()
+                    if not categorias:
+                        print(">> No hay categorías disponibles actualmente.")
+                        continue
+
+                    print("\n--- VER PRODUCTOS POR CATEGORÍA ---")
+                    print("0. Mostrar TODOS los productos disponibles")
+                    for idx, cat in enumerate(categorias, start=1):
+                        print(f"{idx}. {cat.nombre}")
+                    
+                    op_cat = leer_entero("Seleccione una opción: ")
+                    
+                    if op_cat == 0:
+                        prods = self._producto_servicio.listar_disponibles_con_stock()
+                    elif 1 <= op_cat <= len(categorias):
+                        cat_seleccionada = categorias[op_cat - 1]
+                        prods = self._producto_servicio.listar_disponibles_con_stock_por_categoria(cat_seleccionada.id)
+                    else:
+                        print(">> Opción fuera de rango.")
+                        continue
+
                     if not prods:
-                        print("No hay productos disponibles en stock actualmente.")
+                        print("\nNo hay productos disponibles en stock para esta selección.")
                     else:
                         print("\n--- PRODUCTOS DISPONIBLES ---")
                         for p in prods:

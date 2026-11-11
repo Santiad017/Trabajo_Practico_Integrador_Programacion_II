@@ -74,3 +74,12 @@ class ProductoServicio:
 
     def contar_por_categoria(self, categoria_id: int) -> int:
         return len([p for p in self._productos if not p.eliminado and p.categoria.id == categoria_id])
+    
+    def listar_por_categoria(self, categoria_id: int) -> list[Producto]:
+        return [p for p in self._productos if not p.eliminado and p.categoria.id == categoria_id]
+
+    def listar_disponibles_con_stock_por_categoria(self, categoria_id: int) -> list[Producto]:
+        return [
+            p for p in self._productos 
+            if not p.eliminado and p.disponible and p.stock > 0 and p.categoria.id == categoria_id
+        ]
