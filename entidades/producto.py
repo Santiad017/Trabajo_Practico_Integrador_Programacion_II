@@ -13,7 +13,10 @@ class Producto(Base):
         disponible: bool,
         categoria: Categoria
     ) -> None:
-        super().__init__()
+        # Generamos el ID especial desde la categoría ANTES de inicializar la Base
+        id_generado = categoria.generar_id_producto()
+        super().__init__(id_personalizado=id_generado)
+        
         self.nombre = nombre
         self.precio = precio
         self.descripcion = descripcion
