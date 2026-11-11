@@ -5,7 +5,7 @@ from servicios.pedido_servicio import PedidoServicio
 from enums.rol import Rol
 from consola.menu import crear_menu
 from excepciones.food_store_exceptions import CredencialesInvalidasError
-import getpass
+import pwinput
 
 def cargar_datos_iniciales(
     u_srv: UsuarioServicio,
@@ -57,7 +57,7 @@ def main() -> None:
         while intentos < 3:
             mail = input("Mail: ").strip()
             try:
-                contrasenia = getpass.getpass("Contraseña: ")
+                contrasenia = pwinput.pwinput(prompt="Contraseña: ", mask="*")
             except Exception:
                 contrasenia = input("Contraseña: ")
 
